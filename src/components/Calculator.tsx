@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { doNothing } from 'state/actions';
-import { selectCurrentNumber, selectCurrentStack } from 'state/selectors';
+import { selectCurrentNumber } from 'state/selectors/selectCurrentNumber';
+import { selectCurrentStack } from 'state/selectors/selectCurrentStack';
 
 import styles from './Calculator.module.css';
 
-const renderStackItem = (value, index) => {
+const renderStackItem = (value: number, index: number) => {
   return <div key={index}>{value}</div>;
 };
 
@@ -14,7 +15,7 @@ export const Calculator = () => {
   const stack = useSelector(selectCurrentStack);
 
   const dispatch = useDispatch();
-  const onClickNumber = (number) => {
+  const onClickNumber = (n: number) => {
     const action = doNothing();
     dispatch(action);
   };

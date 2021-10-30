@@ -1,7 +1,7 @@
 import { Provider } from 'react-redux';
 
 import { Calculator } from 'components/Calculator';
-import { store } from 'state/store';
+import { store } from 'state';
 
 function App() {
   return (
