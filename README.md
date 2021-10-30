@@ -30,4 +30,7 @@ With the following restrictions:
 4. Run npm start
 5. Go to http://localhost:3000 to see the calculator
 
-Make changes to src/components/Calculator.jsx and the files under src/state
+Make changes to
+
+- onClick functions and their usage in src/components/Calculator.jsx
+- The files under src/state

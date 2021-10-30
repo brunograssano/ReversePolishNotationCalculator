@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { doNothing } from 'state/actions';
+import { changeSample } from 'state/actions/changeSample';
+import { updateOtherSample } from 'state/actions/updateOtherSample';
 import { selectCurrentNumber } from 'state/selectors/selectCurrentNumber';
 import { selectCurrentStack } from 'state/selectors/selectCurrentStack';
 
@@ -16,11 +17,11 @@ export const Calculator = () => {
 
   const dispatch = useDispatch();
   const onClickNumber = (n: number) => {
-    const action = doNothing();
+    const action = changeSample();
     dispatch(action);
   };
   const onClick = () => {
-    const action = doNothing();
+    const action = updateOtherSample();
     dispatch(action);
   };
 

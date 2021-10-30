@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
 
-import { emptyReducer } from './empty';
+import { sampleReducer } from './sampleReducer';
+import { otherSampleReducer } from './otherSampleReducer';
+import { higherOrderReducer } from './higherOrderReducer';
 
-export const rootReducer = combineReducers({
-  nothing: emptyReducer,
-});
+export const rootReducer = higherOrderReducer(
+  combineReducers({
+    sample: sampleReducer,
+    otherSample: otherSampleReducer,
+  })
+);

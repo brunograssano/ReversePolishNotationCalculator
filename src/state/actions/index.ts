@@ -1,5 +1,4 @@
-import { DoNothingAction } from './doNothing';
+import { changeSample } from './changeSample';
+import { updateOtherSample } from './updateOtherSample';
 
-export { doNothing } from './doNothing';
-
-export type AppAction = DoNothingAction;
+export { changeSample, updateOtherSample };
