@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import {changeCurrentNumber, resetCurrentNumber} from 'state/actions/changeCurrentNumber';
-import {operationAction, moveToStack} from 'state/actions/operationAction';
-import {MathOperation} from "../BasicMathOperations";
+import { addDecimalNumber, changeCurrentNumber, resetCurrentNumber } from 'state/actions/changeCurrentNumber';
+import { operationOnSingleArgAction, operationOnTwoArgsAction, moveToStack } from 'state/actions/operationsAction';
+import { SingleArgOperation, sqrt, TwoArgsOperation } from "../BasicMathOperations";
 import { selectCurrentNumber } from 'state/selectors/selectCurrentNumber';
 import { selectCurrentStack } from 'state/selectors/selectCurrentStack';
 
@@ -26,9 +26,16 @@ export const Calculator = () => {
     dispatch(moveToStack(currentNumber));
     dispatch(resetCurrentNumber());
   };
-  const onClickOperation = (operation: MathOperation) => {
+  const onClickTwoArgsOperation = (operation: TwoArgsOperation) => {
     onClickMoveToStack();
-    dispatch(operationAction(operation));
+    dispatch(operationOnTwoArgsAction(operation));
+  };
+  const onClickSingleArgOperation = (operation: SingleArgOperation) => {
+    onClickMoveToStack();
+    dispatch(operationOnSingleArgAction(operation));
+  };
+  const onClickAddDecimal = () => {
+    dispatch(addDecimalNumber());
   };
 
   return (
@@ -43,16 +50,16 @@ export const Calculator = () => {
         <button className={styles.zeroNumber} onClick={() => onClickNumber(0)}>
           0
         </button>
-        <button onClick={() => onClickOperation(sum)}>.</button>
+        <button onClick={() => onClickAddDecimal()}>.</button>
       </div>
       <div className={styles.opKeyContainer}>
-        <button onClick={() => onClickOperation(sum)}>+</button>
-        <button onClick={() => onClickOperation(substract)}>-</button>
-        <button onClick={() => onClickOperation(multiply)}>x</button>
-        <button onClick={() => onClickOperation(divide)}>/</button>
-        <button onClick={() => onClickOperation(sum)}>√</button>
-        <button onClick={() => onClickOperation(sum)}>Σ</button>
-        <button onClick={() => onClickOperation(sum)}>Undo</button>
+        <button onClick={() => onClickTwoArgsOperation(sum)}>+</button>
+        <button onClick={() => onClickTwoArgsOperation(substract)}>-</button>
+        <button onClick={() => onClickTwoArgsOperation(multiply)}>x</button>
+        <button onClick={() => onClickTwoArgsOperation(divide)}>/</button>
+        <button onClick={() => onClickSingleArgOperation(sqrt)}>√</button>
+        <button onClick={() => onClickTwoArgsOperation(sum)}>Σ</button>
+        <button onClick={() => onClickTwoArgsOperation(sum)}>Undo</button>
         <button onClick={() => onClickMoveToStack()}>Intro</button>
       </div>
       <div className={styles.stack}>{stack.map(renderStackItem)}</div>

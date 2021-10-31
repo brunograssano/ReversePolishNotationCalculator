@@ -1,5 +1,5 @@
 import { changeCurrentNumber, resetCurrentNumber } from './changeCurrentNumber';
-import { operationAction, moveToStack } from './operationAction';
+import { operationOnSingleArgAction, operationOnTwoArgsAction, moveToStack } from './operationsAction';
 import { defaultAction } from './defaultAction';
 
-export { changeCurrentNumber, resetCurrentNumber, operationAction, moveToStack, defaultAction };
+export { changeCurrentNumber, resetCurrentNumber, operationOnSingleArgAction, operationOnTwoArgsAction, moveToStack, defaultAction };
