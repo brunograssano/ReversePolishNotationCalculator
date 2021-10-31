@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
 import { addDecimalNumber, changeCurrentNumber, resetCurrentNumber } from 'state/actions/changeCurrentNumber';
-import { operationOnSingleArgAction, operationOnTwoArgsAction, moveToStack } from 'state/actions/operationsAction';
+import { operationOnSingleArgAction, operationOnTwoArgsAction, operationOnAllArgsAction, moveToStack } from 'state/actions/operationsAction';
 import { SingleArgOperation, sqrt, TwoArgsOperation } from "../BasicMathOperations";
 import { selectCurrentNumber } from 'state/selectors/selectCurrentNumber';
 import { selectCurrentStack } from 'state/selectors/selectCurrentStack';
@@ -34,6 +34,10 @@ export const Calculator = () => {
     onClickMoveToStack();
     dispatch(operationOnSingleArgAction(operation));
   };
+  const onClickAllArgsOperation = (operation: TwoArgsOperation) => {
+    onClickMoveToStack();
+    dispatch(operationOnAllArgsAction(operation));
+  };
   const onClickAddDecimal = () => {
     dispatch(addDecimalNumber());
   };
@@ -58,7 +62,7 @@ export const Calculator = () => {
         <button onClick={() => onClickTwoArgsOperation(multiply)}>x</button>
         <button onClick={() => onClickTwoArgsOperation(divide)}>/</button>
         <button onClick={() => onClickSingleArgOperation(sqrt)}>√</button>
-        <button onClick={() => onClickTwoArgsOperation(sum)}>Σ</button>
+        <button onClick={() => onClickAllArgsOperation(sum)}>Σ</button>
         <button onClick={() => onClickTwoArgsOperation(sum)}>Undo</button>
         <button onClick={() => onClickMoveToStack()}>Intro</button>
       </div>

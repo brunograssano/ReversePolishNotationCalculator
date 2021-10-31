@@ -29,3 +29,8 @@ export const operationOnSingleArgAction = (operation: SingleArgOperation): Opera
   type: 'OPERATION_ONE_ARG',
   operation,
 });
+
+export const operationOnAllArgsAction = (operation: TwoArgsOperation): OperationWithTwoArgsAction => ({
+  type: 'OPERATION_ON_ALL_ARGS',
+  operation,
+});

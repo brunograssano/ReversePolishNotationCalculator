@@ -34,6 +34,15 @@ const executeSingleArgOperation = (state: StackState, operation: SingleArgOperat
   return state;
 }
 
+const executeOperationOnAllArgs = (state: StackState, operation: TwoArgsOperation): StackState => {
+  if (state.stack.length === 0){
+    return state;
+  }
+  let result = roundToOneDecimal(state.stack.reduce(operation));
+  state.stack = [result];
+  return state;
+}
+
 export const operationsReducer: Reducer<StackState, AppAction> = (
   state = initialState,
   action
@@ -41,9 +50,11 @@ export const operationsReducer: Reducer<StackState, AppAction> = (
 
   switch (action.type) {
     case 'OPERATION_TWO_ARGS':
-      return executeTwoArgsOperation(state,action.operation as TwoArgsOperation);
+      return executeTwoArgsOperation(state,action.operation);
     case 'OPERATION_ONE_ARG':
-      return executeSingleArgOperation(state,action.operation as SingleArgOperation);
+      return executeSingleArgOperation(state,action.operation);
+    case 'OPERATION_ON_ALL_ARGS':
+      return executeOperationOnAllArgs(state,action.operation);
     case 'MOVE_TO_STACK':
       return moveCurrentNumberToStack(state,action.inputNumber);
     default:
