@@ -5,16 +5,31 @@ import {MOVE_TO_STACK, OPERATION_ON_ALL_ARGS, OPERATION_ONE_ARG, OPERATION_TWO_A
 import {Action, UNDO_ACTION} from "../actions/undoAction";
 const ONE_ARGUMENT = 1, TWO_ARGUMENTS = 2;
 
+const identity = (n: number) : number =>{
+  return n;
+}
+
 type StackState = {
   stack: number[];
+  history: number[][];
 };
 
 const initialState: StackState = {
   stack: [],
+  history: [[]],
 };
+
+const saveCurrentStack = (state: StackState): StackState => {
+  if (state.stack.length !== 0){
+    state.history.push(state.stack);
+    state.stack = state.stack.map(identity);
+  }
+  return state;
+}
 
 const moveCurrentNumberToStack = (state: StackState, currentNumber: number): StackState => {
   if (currentNumber !== 0){
+    state = saveCurrentStack(state);
     state.stack.unshift(currentNumber);
   }
   return state;
@@ -22,6 +37,7 @@ const moveCurrentNumberToStack = (state: StackState, currentNumber: number): Sta
 
 const executeTwoArgsOperation = (state: StackState, operation: TwoArgsOperation): StackState => {
   if (state.stack.length >= TWO_ARGUMENTS){
+    state = saveCurrentStack(state);
     let a  = state.stack.shift() as number;
     let b = state.stack.shift() as number;
     state.stack.unshift(roundToOneDecimal(operation(a,b)));
@@ -31,6 +47,7 @@ const executeTwoArgsOperation = (state: StackState, operation: TwoArgsOperation)
 
 const executeSingleArgOperation = (state: StackState, operation: SingleArgOperation): StackState => {
   if (state.stack.length >= ONE_ARGUMENT){
+    state = saveCurrentStack(state);
     let n  = state.stack.shift() as number;
     state.stack.unshift(roundToOneDecimal(operation(n)));
   }
@@ -41,13 +58,19 @@ const executeOperationOnAllArgs = (state: StackState, operation: TwoArgsOperatio
   if (state.stack.length === 0){
     return state;
   }
+  state = saveCurrentStack(state);
   let result = roundToOneDecimal(state.stack.reduce(operation));
   state.stack = [result];
   return state;
 }
 
 const undoLastOperation = (state: StackState, typeOfAction: Action): StackState => {
-  // TODO
+  if (state.history.length !== 0){
+    state.stack = state.history.pop() as number[];
+    if (state.history.length === 0){
+      state.history.push([]);
+    }
+  }
   return state;
 }
 
