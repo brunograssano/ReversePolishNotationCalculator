@@ -1,5 +1,5 @@
 import { changeCurrentNumber, resetCurrentNumber } from './changeCurrentNumber';
-import { operation, moveToStack } from './operation';
+import { operationAction, moveToStack } from './operationAction';
 import { defaultAction } from './defaultAction';
 
-export { changeCurrentNumber, resetCurrentNumber, operation, moveToStack, defaultAction };
+export { changeCurrentNumber, resetCurrentNumber, operationAction, moveToStack, defaultAction };

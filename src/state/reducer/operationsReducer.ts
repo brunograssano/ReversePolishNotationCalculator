@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
-import { assertUnreachable } from 'utils/assertUnreachable';
 import { AppAction } from '../AppAction';
+import {MathOperation} from "../../BasicMathOperations";
 
 type StackState = {
   stack: number[];
@@ -17,17 +17,23 @@ const moveCurrentNumberToStack = (state: StackState, currentNumber: number): Sta
   return state;
 }
 
+const executeOperation = (state: StackState, operation: MathOperation): StackState => {
+  if (state.stack.length >= 2){
+    let a  = state.stack.shift() as number;
+    let b = state.stack.shift() as number;
+    state.stack.unshift(operation(a,b));
+  }
+  return state;
+}
+
 export const operationsReducer: Reducer<StackState, AppAction> = (
   state = initialState,
   action
 ) => {
 
   switch (action.type) {
-    case 'OPERATION':/*
-      switch (action.function) {
-        default:
-          return assertUnreachable(action.function);
-      }*/
+    case 'OPERATION':
+      return executeOperation(state,action.operation)
     case 'MOVE_TO_STACK':
       return moveCurrentNumberToStack(state,action.inputNumber);
     default:

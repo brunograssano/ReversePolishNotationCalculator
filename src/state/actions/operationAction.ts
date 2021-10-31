@@ -1,7 +1,8 @@
+import {MathOperation} from "../../BasicMathOperations";
+
 type OperationAction = {
   type: 'OPERATION';
-  inputNumber: number;
-  function: 'INCREMENT' | 'DECREMENT';
+  operation: MathOperation;
 };
 
 type MoveToStackAction = {
@@ -14,8 +15,7 @@ export const moveToStack = (n: number): MoveToStackAction => ({
   inputNumber: n,
 });
 
-export const operation = (n: number): OperationAction => ({
+export const operationAction = (operation: MathOperation): OperationAction => ({
   type: 'OPERATION',
-  inputNumber: n,
-  function: 'INCREMENT',
+  operation,
 });
