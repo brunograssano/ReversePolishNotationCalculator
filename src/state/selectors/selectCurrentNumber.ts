@@ -1,5 +1,5 @@
 import { RootState } from '..';
 
 export const selectCurrentNumber = (state: RootState): number => {
-  return state.content.changeNumber.currentNumber;
+  return state.content.changeNumber.currentNumberState.currentNumber;
 };

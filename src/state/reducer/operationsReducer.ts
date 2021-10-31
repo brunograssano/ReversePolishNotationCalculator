@@ -2,6 +2,7 @@ import { Reducer } from 'redux';
 import { AppAction } from '../AppAction';
 import {SingleArgOperation, TwoArgsOperation, roundToOneDecimal} from "../../BasicMathOperations";
 import {MOVE_TO_STACK, OPERATION_ON_ALL_ARGS, OPERATION_ONE_ARG, OPERATION_TWO_ARGS} from "../actions/operationsAction";
+import {Action, UNDO_ACTION} from "../actions/undoAction";
 const ONE_ARGUMENT = 1, TWO_ARGUMENTS = 2;
 
 type StackState = {
@@ -45,6 +46,11 @@ const executeOperationOnAllArgs = (state: StackState, operation: TwoArgsOperatio
   return state;
 }
 
+const undoLastOperation = (state: StackState, typeOfAction: Action): StackState => {
+  // TODO
+  return state;
+}
+
 export const operationsReducer: Reducer<StackState, AppAction> = (
   state = initialState,
   action
@@ -59,6 +65,8 @@ export const operationsReducer: Reducer<StackState, AppAction> = (
       return executeOperationOnAllArgs(state,action.operation);
     case MOVE_TO_STACK:
       return moveCurrentNumberToStack(state,action.inputNumber);
+    case UNDO_ACTION:
+      return undoLastOperation(state,action.typeOfAction);
     default:
       return state;
   }

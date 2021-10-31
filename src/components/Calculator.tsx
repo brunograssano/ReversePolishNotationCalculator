@@ -1,14 +1,19 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addDecimalNumber, changeCurrentNumber, resetCurrentNumber } from 'state/actions/changeCurrentNumber';
-import { operationOnSingleArgAction, operationOnTwoArgsAction, operationOnAllArgsAction, moveToStack } from 'state/actions/operationsAction';
-import { SingleArgOperation, sqrt, TwoArgsOperation } from "../BasicMathOperations";
+import { addDecimalNumber, changeCurrentNumber, resetCurrentNumber,
+  operationOnSingleArgAction, operationOnTwoArgsAction, operationOnAllArgsAction, moveToStack,
+  undoAction, doAction } from 'state/actions/index';
+
+import { SingleArgOperation, TwoArgsOperation } from "../BasicMathOperations";
+import { sum, substract, multiply, divide, sqrt } from "../BasicMathOperations";
+import { INPUT, OPERATION } from "../state/actions/undoAction";
+
 import { selectCurrentNumber } from 'state/selectors/selectCurrentNumber';
 import { selectCurrentStack } from 'state/selectors/selectCurrentStack';
-
-import {sum, substract, multiply, divide} from "../BasicMathOperations";
+import { selectLastAction } from 'state/selectors/selectLastAction';
 
 import styles from './Calculator.module.css';
+
 
 const renderStackItem = (value: number, index: number) => {
   return <div key={index}>{value}</div>;
@@ -17,29 +22,43 @@ const renderStackItem = (value: number, index: number) => {
 export const Calculator = () => {
   const currentNumber = useSelector(selectCurrentNumber);
   const stack = useSelector(selectCurrentStack);
+  const lastAction = useSelector(selectLastAction);
 
   const dispatch = useDispatch();
+
   const onClickNumber = (n: number) => {
     dispatch(changeCurrentNumber(n));
+    dispatch(doAction(INPUT));
   };
+
   const onClickMoveToStack = () => {
     dispatch(moveToStack(currentNumber));
     dispatch(resetCurrentNumber());
+    dispatch(doAction(OPERATION));
   };
+
   const onClickTwoArgsOperation = (operation: TwoArgsOperation) => {
     onClickMoveToStack();
     dispatch(operationOnTwoArgsAction(operation));
   };
+
   const onClickSingleArgOperation = (operation: SingleArgOperation) => {
     onClickMoveToStack();
     dispatch(operationOnSingleArgAction(operation));
   };
+
   const onClickAllArgsOperation = (operation: TwoArgsOperation) => {
     onClickMoveToStack();
     dispatch(operationOnAllArgsAction(operation));
   };
+
   const onClickAddDecimal = () => {
     dispatch(addDecimalNumber());
+    dispatch(doAction(INPUT));
+  };
+
+  const onClickUndoAction = () => {
+    dispatch(undoAction(lastAction));
   };
 
   return (
@@ -63,7 +82,7 @@ export const Calculator = () => {
         <button onClick={() => onClickTwoArgsOperation(divide)}>/</button>
         <button onClick={() => onClickSingleArgOperation(sqrt)}>√</button>
         <button onClick={() => onClickAllArgsOperation(sum)}>Σ</button>
-        <button onClick={() => onClickTwoArgsOperation(sum)}>Undo</button>
+        <button onClick={() => onClickUndoAction()}>Undo</button>
         <button onClick={() => onClickMoveToStack()}>Intro</button>
       </div>
       <div className={styles.stack}>{stack.map(renderStackItem)}</div>
