@@ -1,6 +1,8 @@
 import { Reducer } from 'redux';
 import { AppAction } from '../AppAction';
 import {SingleArgOperation, TwoArgsOperation, roundToOneDecimal} from "../../BasicMathOperations";
+import {MOVE_TO_STACK, OPERATION_ON_ALL_ARGS, OPERATION_ONE_ARG, OPERATION_TWO_ARGS} from "../actions/operationsAction";
+const ONE_ARGUMENT = 1, TWO_ARGUMENTS = 2;
 
 type StackState = {
   stack: number[];
@@ -18,7 +20,7 @@ const moveCurrentNumberToStack = (state: StackState, currentNumber: number): Sta
 }
 
 const executeTwoArgsOperation = (state: StackState, operation: TwoArgsOperation): StackState => {
-  if (state.stack.length >= 2){
+  if (state.stack.length >= TWO_ARGUMENTS){
     let a  = state.stack.shift() as number;
     let b = state.stack.shift() as number;
     state.stack.unshift(roundToOneDecimal(operation(a,b)));
@@ -27,7 +29,7 @@ const executeTwoArgsOperation = (state: StackState, operation: TwoArgsOperation)
 }
 
 const executeSingleArgOperation = (state: StackState, operation: SingleArgOperation): StackState => {
-  if (state.stack.length >= 1){
+  if (state.stack.length >= ONE_ARGUMENT){
     let n  = state.stack.shift() as number;
     state.stack.unshift(roundToOneDecimal(operation(n)));
   }
@@ -49,13 +51,13 @@ export const operationsReducer: Reducer<StackState, AppAction> = (
 ) => {
 
   switch (action.type) {
-    case 'OPERATION_TWO_ARGS':
+    case OPERATION_TWO_ARGS:
       return executeTwoArgsOperation(state,action.operation);
-    case 'OPERATION_ONE_ARG':
+    case OPERATION_ONE_ARG:
       return executeSingleArgOperation(state,action.operation);
-    case 'OPERATION_ON_ALL_ARGS':
+    case OPERATION_ON_ALL_ARGS:
       return executeOperationOnAllArgs(state,action.operation);
-    case 'MOVE_TO_STACK':
+    case MOVE_TO_STACK:
       return moveCurrentNumberToStack(state,action.inputNumber);
     default:
       return state;

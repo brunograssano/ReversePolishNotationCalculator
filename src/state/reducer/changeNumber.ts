@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
 import { AppAction } from '../AppAction';
+import {ADD_DECIMAL, CHANGE_NUMBER, RESET_NUMBER} from "../actions/changeCurrentNumber";
 
 type NumberState = {
   currentNumber: number;
@@ -31,7 +32,7 @@ const changeStateCurrentNumber = (state: NumberState, n: number) : NumberState =
   return state;
 }
 
-const resetCurrentNumber = (state: NumberState, n: number) : NumberState => {
+const resetCurrentNumber = (state: NumberState) : NumberState => {
   state.currentNumber = 0;
   state.inDecimalMode = false;
   state.usedDecimal = false;
@@ -48,11 +49,11 @@ export const changeNumber: Reducer<NumberState, AppAction> = (
     action
   ) => {
   switch (action.type) {
-    case 'CHANGE_NUMBER':
-      return changeStateCurrentNumber(state, action.payload);
-    case 'RESET_NUMBER':
-      return resetCurrentNumber(state,action.payload);
-    case 'ADD_DECIMAL':
+    case CHANGE_NUMBER:
+      return changeStateCurrentNumber(state, action.inputNumber);
+    case RESET_NUMBER:
+      return resetCurrentNumber(state);
+    case ADD_DECIMAL:
       return addingDecimalToCurrentNumber(state);
     default:
       return state;
