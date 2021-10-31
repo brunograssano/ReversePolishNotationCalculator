@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { AppAction } from '../AppAction';
 import {SingleArgOperation, TwoArgsOperation, roundToOneDecimal} from "../../BasicMathOperations";
 import {MOVE_TO_STACK, OPERATION_ON_ALL_ARGS, OPERATION_ONE_ARG, OPERATION_TWO_ARGS} from "../actions/operationsAction";
-import {Action, UNDO_ACTION} from "../actions/undoAction";
+import {Action, OPERATION, UNDO_ACTION} from "../actions/undoAction";
 const ONE_ARGUMENT = 1, TWO_ARGUMENTS = 2;
 
 const identity = (n: number) : number =>{
@@ -65,7 +65,7 @@ const executeOperationOnAllArgs = (state: StackState, operation: TwoArgsOperatio
 }
 
 const undoLastOperation = (state: StackState, typeOfAction: Action): StackState => {
-  if (state.history.length !== 0){
+  if (typeOfAction === OPERATION && state.history.length !== 0){
     state.stack = state.history.pop() as number[];
     if (state.history.length === 0){
       state.history.push([]);
@@ -74,11 +74,7 @@ const undoLastOperation = (state: StackState, typeOfAction: Action): StackState 
   return state;
 }
 
-export const operationsReducer: Reducer<StackState, AppAction> = (
-  state = initialState,
-  action
-) => {
-
+export const operationsReducer: Reducer<StackState, AppAction> = (state = initialState, action) => {
   switch (action.type) {
     case OPERATION_TWO_ARGS:
       return executeTwoArgsOperation(state,action.operation);
