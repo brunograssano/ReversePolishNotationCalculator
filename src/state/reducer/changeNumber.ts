@@ -19,6 +19,11 @@ const changeStateCurrentNumber = (state: NumberState, n: number) : NumberState =
   return state;
 }
 
+const resetCurrentNumber = (state: NumberState, n: number) : NumberState => {
+  state.currentNumber = n;
+  return state;
+}
+
 export const changeNumber: Reducer<NumberState, AppAction> = (
     state = initialState,
     action
@@ -26,6 +31,8 @@ export const changeNumber: Reducer<NumberState, AppAction> = (
   switch (action.type) {
     case 'CHANGE_NUMBER':
       return changeStateCurrentNumber(state, action.payload);
+    case 'RESET_NUMBER':
+      return resetCurrentNumber(state,action.payload)
     default:
       return state;
   }

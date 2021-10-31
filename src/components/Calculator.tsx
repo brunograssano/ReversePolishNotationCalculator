@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { changeCurrentNumber } from 'state/actions/changeCurrentNumber';
-import { updateOtherSample } from 'state/actions/updateOtherSample';
+import {changeCurrentNumber, resetCurrentNumber} from 'state/actions/changeCurrentNumber';
+import { operation, moveToStack } from 'state/actions/operation';
 import { selectCurrentNumber } from 'state/selectors/selectCurrentNumber';
 import { selectCurrentStack } from 'state/selectors/selectCurrentStack';
 
@@ -19,9 +19,12 @@ export const Calculator = () => {
   const onClickNumber = (n: number) => {
     dispatch(changeCurrentNumber(n));
   };
+  const onClickMoveToStack = () => {
+    dispatch(moveToStack(currentNumber));
+    dispatch(resetCurrentNumber());
+  };
   const onClick = () => {
-    const action = updateOtherSample();
-    dispatch(action);
+    dispatch(moveToStack(currentNumber));
   };
 
   return (
@@ -46,7 +49,7 @@ export const Calculator = () => {
         <button onClick={() => onClick()}>√</button>
         <button onClick={() => onClick()}>Σ</button>
         <button onClick={() => onClick()}>Undo</button>
-        <button onClick={() => onClick()}>Intro</button>
+        <button onClick={() => onClickMoveToStack()}>Intro</button>
       </div>
       <div className={styles.stack}>{stack.map(renderStackItem)}</div>
     </div>
