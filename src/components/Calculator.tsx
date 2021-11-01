@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 
-import { addDecimalNumber, changeCurrentNumber, resetCurrentNumber,
+import { addDecimalNumber, changeCurrentNumber,
   operationOnSingleArgAction, operationOnTwoArgsAction, operationOnAllArgsAction, moveToStack,
   undoAction, doAction } from 'state/actions/index';
 
 import { SingleArgOperation, TwoArgsOperation } from "../BasicMathOperations";
 import { sum, substract, multiply, divide, sqrt } from "../BasicMathOperations";
-import { INPUT, OPERATION } from "../state/actions/undoAction";
+import {Action, INPUT, OPERATION, SINGLE_ARG, TWO_ARGS} from "../state/actions/undoAction";
 
 import { selectCurrentNumber } from 'state/selectors/selectCurrentNumber';
 import { selectCurrentStack } from 'state/selectors/selectCurrentStack';
@@ -28,33 +28,35 @@ export const Calculator = () => {
 
   const onClickNumber = (n: number) => {
     dispatch(changeCurrentNumber(n));
-    dispatch(doAction(INPUT));
+    dispatch(doAction(INPUT,0));
   };
 
   const onClickMoveToStack = () => {
     dispatch(moveToStack(currentNumber));
-    dispatch(resetCurrentNumber());
-    dispatch(doAction(OPERATION));
+    dispatch(doAction(OPERATION,currentNumber));
   };
 
   const onClickTwoArgsOperation = (operation: TwoArgsOperation) => {
     onClickMoveToStack();
     dispatch(operationOnTwoArgsAction(operation));
+    dispatch(doAction(TWO_ARGS,stack.length));
   };
 
   const onClickSingleArgOperation = (operation: SingleArgOperation) => {
     onClickMoveToStack();
     dispatch(operationOnSingleArgAction(operation));
+    dispatch(doAction(SINGLE_ARG,stack.length));
   };
 
   const onClickAllArgsOperation = (operation: TwoArgsOperation) => {
     onClickMoveToStack();
     dispatch(operationOnAllArgsAction(operation));
+    dispatch(doAction(OPERATION,stack.length));
   };
 
   const onClickAddDecimal = () => {
     dispatch(addDecimalNumber());
-    dispatch(doAction(INPUT));
+    dispatch(doAction(INPUT,0));
   };
 
   const onClickUndoAction = () => {
