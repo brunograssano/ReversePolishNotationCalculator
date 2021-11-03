@@ -2,11 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { addDecimalNumber, changeCurrentNumber,
   operationOnSingleArgAction, operationOnTwoArgsAction, operationOnAllArgsAction, moveToStack,
-  undoAction, doAction } from 'state/actions/index';
+  undoAction, doAction } from '../state/actions';
 
 import { SingleArgOperation, TwoArgsOperation } from "../BasicMathOperations";
 import { sum, substract, multiply, divide, sqrt } from "../BasicMathOperations";
-import {Action, INPUT, OPERATION, SINGLE_ARG, TWO_ARGS} from "../state/actions/undoAction";
+import { INPUT, OPERATION, SINGLE_ARG, TWO_ARGS } from "../state/actions/undoAction";
 
 import { selectCurrentNumber } from 'state/selectors/selectCurrentNumber';
 import { selectCurrentStack } from 'state/selectors/selectCurrentStack';

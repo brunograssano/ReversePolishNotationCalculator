@@ -7,7 +7,7 @@ type HigherOrderState<S> = {
 };
 
 function getInitialState<S>(reducer: Reducer<S, AnyAction>): S {
-  return reducer(undefined, { type: 'DEFAULT' });
+  return reducer(undefined, { type: undefined });
 }
 
 export function higherOrderReducer<S>(reducer: Reducer<S, AppAction>): Reducer<HigherOrderState<S>, AppAction> {
