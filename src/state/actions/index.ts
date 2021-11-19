@@ -1,5 +1,9 @@
-import { changeCurrentNumber, resetCurrentNumber } from './changeCurrentNumber';
-import { operationAction, moveToStack } from './operationAction';
+import { addDecimalNumber, changeCurrentNumber } from './changeCurrentNumber';
+import { operationOnSingleArgAction, operationOnTwoArgsAction, operationOnAllArgsAction, moveToStack } from './operationsAction';
 import { defaultAction } from './defaultAction';
+import { doAction, undoAction } from './undoAction';
 
-export { changeCurrentNumber, resetCurrentNumber, operationAction, moveToStack, defaultAction };
+export { addDecimalNumber, changeCurrentNumber,
+        operationOnSingleArgAction, operationOnTwoArgsAction, operationOnAllArgsAction, moveToStack,
+        defaultAction,
+        undoAction, doAction};
